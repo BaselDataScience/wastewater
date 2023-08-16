@@ -20,19 +20,21 @@ w <- c('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesd
 # Define UI for application that draws a histogram
 ui <- fluidPage(
     plotOutput('plot'),
-    selectInput('city_selected', 'Cities', cities, multiple = TRUE, selected = cities[1]),
-    'Based on EMCDDA and SCORE data from https://www.emcdda.europa.eu/publications/html/pods/waste-water-analysis_en#sourceData'
+    selectInput('city_selected', 'Cities', cities, multiple = TRUE, selected = sample(cities,1)),
+    'Based on',
+    shiny::tags$a(href='https://www.emcdda.europa.eu/publications/html/pods/waste-water-analysis_en#sourceData',
+                  'EMCDDA and SCORE data')
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-
     output$plot <- renderPlot({
+      req(input$city_selected)
       dat %>%
         dplyr::filter(City %in% input$city_selected) %>%
         dplyr::group_by(City, Metabolite, Year) %>%
         tidyr::pivot_longer(cols = dplyr::all_of(w)) %>%
-        dplyr::mutate(name = factor(name, levels = w, ordered = TRUE)) %>%
+        dplyr::mutate(name = factor(name, labels = substring(w, 1, 3), levels = w, ordered = TRUE)) %>%
         ggplot2::ggplot(ggplot2::aes(x=name, y=value, group=Year, color=Year)) +
         ggplot2::scale_color_continuous(trans='reverse') +
         ggplot2::xlab(NULL) + ggplot2::ylab('mg/day/1000 inhabitants') +
