@@ -41,7 +41,7 @@ server <- function(input, output) {
         ggplot2::guides(colour = ggplot2::guide_legend(reverse=TRUE)) +
         ggplot2::ggtitle('Drug Metabolites in Wastewater across one Week') +
         ggplot2::geom_point() + ggplot2::geom_line() +
-        ggplot2::facet_grid(rows=ggplot2::vars(Metabolite), cols=ggplot2::vars(City), scales='free_y') +
+        ggplot2::facet_grid(rows=ggplot2::vars(Metabolite), cols=ggplot2::vars(factor(City, levels = input$city_selected)), scales='free_y') +
         ggplot2::theme_bw()
     })
 }
