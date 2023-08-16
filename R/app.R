@@ -19,11 +19,9 @@ w <- c('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesd
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-    fluidRow( column(4, selectInput('c1', 'City 1', cities, selected = cities[1])),
-              column(8, selectInput('c2', 'City 2', cities, selected = cities[length(cities)]))
-    ),
     plotOutput('plot'),
-    'Based on EMCDDA and SCORE data from https://www.emcdda.europa.eu/publications/html/pods/waste-water-analysis_en#sourceData',
+    selectInput('city_selected', 'Cities', cities, multiple = TRUE, selected = cities[1]),
+    'Based on EMCDDA and SCORE data from https://www.emcdda.europa.eu/publications/html/pods/waste-water-analysis_en#sourceData'
 )
 
 # Define server logic required to draw a histogram
@@ -31,7 +29,7 @@ server <- function(input, output) {
 
     output$plot <- renderPlot({
       dat %>%
-        dplyr::filter(City %in% c(input$c1, input$c2)) %>%
+        dplyr::filter(City %in% input$city_selected) %>%
         dplyr::group_by(City, Metabolite, Year) %>%
         tidyr::pivot_longer(cols = dplyr::all_of(w)) %>%
         dplyr::mutate(name = factor(name, levels = w, ordered = TRUE)) %>%
