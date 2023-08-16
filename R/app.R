@@ -18,15 +18,12 @@ w <- c('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesd
 
 
 # Define UI for application that draws a histogram
-ui <- pageWithSidebar(
-  headerPanel('Wastewater Monitoring'),
-  sidebarPanel(
-    selectInput('c1', 'City 1', cities, selected = cities[1]),
-    selectInput('c2', 'City 2', cities, selected = cities[length(cities)]),
-  ),
-  mainPanel(
-    plotOutput('plot')
-  )
+ui <- fluidPage(
+    fluidRow( column(4, selectInput('c1', 'City 1', cities, selected = cities[1])),
+              column(8, selectInput('c2', 'City 2', cities, selected = cities[length(cities)]))
+    ),
+    plotOutput('plot'),
+    'Based on EMCDDA and SCORE data from https://www.emcdda.europa.eu/publications/html/pods/waste-water-analysis_en#sourceData',
 )
 
 # Define server logic required to draw a histogram
@@ -38,12 +35,14 @@ server <- function(input, output) {
         dplyr::group_by(City, Metabolite, Year) %>%
         tidyr::pivot_longer(cols = dplyr::all_of(w)) %>%
         dplyr::mutate(name = factor(name, levels = w, ordered = TRUE)) %>%
-        ggplot2::ggplot(aes(x=name, y=value, group=Year, color=Year)) + ggplot2::scale_color_continuous(trans='reverse') +
+        ggplot2::ggplot(ggplot2::aes(x=name, y=value, group=Year, color=Year)) +
+        ggplot2::scale_color_continuous(trans='reverse') +
         ggplot2::xlab(NULL) + ggplot2::ylab('mg/day/1000 inhabitants') +
         ggplot2::guides(colour = ggplot2::guide_legend(reverse=TRUE)) +
         ggplot2::ggtitle('Drug Metabolites in Wastewater across one Week') +
         ggplot2::geom_point() + ggplot2::geom_line() +
-        ggplot2::facet_grid(rows=vars(Metabolite), cols=vars(City), scales='free_y') + ggplot2::theme_bw()
+        ggplot2::facet_grid(rows=ggplot2::vars(Metabolite), cols=ggplot2::vars(City), scales='free_y') +
+        ggplot2::theme_bw()
     })
 }
 
