@@ -5,7 +5,7 @@
 ggplot2::theme_set(ggplot2::theme_bw())
 
 ww_weekdays <- c('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday')
-utils::globalVariables(c('ww_data', 'City', 'cities'))
+utils::globalVariables(c('ww_data', 'City', 'ww_cities'))
 
 #' Display Wastewater Measurements
 #'
@@ -18,7 +18,7 @@ ww <- function() {
   # Define UI for application that draws a histogram
   ui <- shiny::fluidPage(
       shiny::plotOutput('plot'),
-      shiny::selectInput('city_selected', 'Cities', cities, multiple = TRUE, selected = sample(cities,1)),
+      shiny::selectInput('city_selected', 'Cities', ww_cities, multiple = TRUE, selected = sample(ww_cities,1)),
       'Based on',
       shiny::tags$a(href='https://www.emcdda.europa.eu/publications/html/pods/waste-water-analysis_en#sourceData',
                     'EMCDDA and SCORE data')
