@@ -4,10 +4,7 @@
 \alias{ww}
 \title{Display Wastewater Measurements}
 \usage{
-ww(...)
-}
-\arguments{
-\item{...}{}
+ww()
 }
 \description{
 Display Wastewater Measurements

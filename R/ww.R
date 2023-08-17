@@ -5,16 +5,15 @@
 ggplot2::theme_set(ggplot2::theme_bw())
 
 ww_weekdays <- c('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday')
+utils::globalVariables(c('ww_data', 'City', 'cities'))
 
 #' Display Wastewater Measurements
-#'
-#' @param ...
 #'
 #' @return NULL
 #' @export
 #' @importFrom rlang .data
 #' @importFrom dplyr %>%
-ww <- function(...) {
+ww <- function() {
 
   # Define UI for application that draws a histogram
   ui <- shiny::fluidPage(
@@ -42,5 +41,5 @@ ww <- function(...) {
   }
 
   # Run the application
-  shiny::shinyApp(ui = ui, server = server, ...)
+  shiny::shinyApp(ui = ui, server = server)
 }

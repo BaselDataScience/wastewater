@@ -13,7 +13,7 @@ A data frame with 21560 rows and 7 columns:
 \item{Metabolite}{drug category for which metabolites were measured}
 \item{Site ID}{short identifier for city where wastewater was collected}
 \item{Country}{2-letter abbreviation of the country to which city belongs}
-\item{City}{city where wastwater was analysed}
+\item{City}{city where wastwater was collected}
 \item{weekday}{3-letter English abbreviation of weekday of measurement}
 \item{value}{estimated amount of drug per day and per 1000 inhabitants in mg}
 }
