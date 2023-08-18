@@ -5,22 +5,28 @@
 ggplot2::theme_set(ggplot2::theme_bw())
 
 ww_weekdays <- c('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday')
-utils::globalVariables(c('ww_data', 'ww_colors', 'ww_cities', 'City'))
+utils::globalVariables(c('ww_data', 'ww_colors', 'ww_sites', 'ww_cities', 'City'))
 
 #' Display Wastewater Measurements
 #'
 #' @return NULL
 #' @export
 #' @importFrom rlang .data
+#' @examples
+#' if (interactive()) ww()
+#'
 ww <- function() {
 
   # Define UI for application that draws a histogram
   ui <- shiny::fluidPage(
+      shiny::h2('Drug Metabolites in Wastewater across one Week'),
       shiny::plotOutput('plot'),
       shiny::selectInput('city_selected', 'Cities', ww_cities, multiple = TRUE, selected = sample(ww_cities,1)),
       'Based on',
       shiny::tags$a(href='https://www.emcdda.europa.eu/publications/html/pods/waste-water-analysis_en#sourceData',
-                    'EMCDDA and SCORE data')
+                    'EMCDDA and SCORE data'),
+      shiny::hr(),
+      DT::DTOutput('sites')
   )
 
   # Define server logic required to draw a histogram
@@ -32,10 +38,11 @@ ww <- function() {
           ggplot2::scale_colour_manual(values = ww_colors) +
           ggplot2::xlab(NULL) + ggplot2::ylab('mg/day/1000 inhabitants') +
           ggplot2::guides(colour = ggplot2::guide_legend(reverse=TRUE)) +
-          ggplot2::ggtitle('Drug Metabolites in Wastewater across one Week') +
           ggplot2::geom_point() + ggplot2::geom_line() +
           ggplot2::facet_grid(rows=ggplot2::vars(.data$Metabolite), cols=ggplot2::vars(factor(City, levels = input$city_selected)), scales='free_y')
       })
+
+      output$sites <- DT::renderDT(ww_sites)
   }
 
   # Run the application

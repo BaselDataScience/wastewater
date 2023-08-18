@@ -9,3 +9,7 @@ ww()
 \description{
 Display Wastewater Measurements
 }
+\examples{
+if (interactive()) ww()
+
+}
