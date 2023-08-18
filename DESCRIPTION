@@ -1,6 +1,6 @@
 Package: wastewater
 Title: Analyse Drug Metabolites in Wastewater in Europe
-Version: 0.8
+Version: 0.8.1
 Authors@R: 
     person("Reinhold", "Koch", , "rei@reinholdkoch.com", role = c("aut", "cre"))
 Description: Visualises drug measurements over the test week for all drugs across selected cities.
@@ -9,6 +9,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
+    DT,
     ggplot2,
     rlang,
     shiny
