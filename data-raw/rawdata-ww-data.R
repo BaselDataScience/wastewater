@@ -10,7 +10,7 @@ ww_cities <- sort(unique(ww_data$City))
 
 # determine display colors and associate them with years
 years <- as.character(sort(unique(ww_data$Year)))
-ww_col <- viridisLite::viridis(n=length(years), direction = -1)
-names(ww_col) <- years
+ww_colors <- viridisLite::viridis(n=length(years), direction = -1)
+names(ww_colors) <- years
 
-usethis::use_data(ww_data, ww_cities, ww_col, overwrite = TRUE)
+usethis::use_data(ww_data, ww_cities, ww_colors, overwrite = TRUE)

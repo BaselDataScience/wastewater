@@ -5,14 +5,13 @@
 ggplot2::theme_set(ggplot2::theme_bw())
 
 ww_weekdays <- c('Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday')
-utils::globalVariables(c('ww_data', 'ww_col', 'ww_cities', 'City'))
+utils::globalVariables(c('ww_data', 'ww_colors', 'ww_cities', 'City'))
 
 #' Display Wastewater Measurements
 #'
 #' @return NULL
 #' @export
 #' @importFrom rlang .data
-#' @importFrom dplyr %>%
 ww <- function() {
 
   # Define UI for application that draws a histogram
@@ -28,10 +27,9 @@ ww <- function() {
   server <- function(input, output) {
       output$plot <- shiny::renderPlot({
         shiny::req(input$city_selected)
-        ww_data %>%
-          dplyr::filter(.data$City %in% input$city_selected) %>%
-          ggplot2::ggplot(ggplot2::aes(x=.data$weekday, y=.data$value, group=.data$Year, color=.data$Year)) +
-          ggplot2::scale_colour_manual(values = ww_col) +
+        ggplot2::ggplot(data = ww_data[ ww_data$City %in% input$city_selected, ],
+                        mapping = ggplot2::aes(x=.data$weekday, y=.data$value, group=.data$Year, color=.data$Year)) +
+          ggplot2::scale_colour_manual(values = ww_colors) +
           ggplot2::xlab(NULL) + ggplot2::ylab('mg/day/1000 inhabitants') +
           ggplot2::guides(colour = ggplot2::guide_legend(reverse=TRUE)) +
           ggplot2::ggtitle('Drug Metabolites in Wastewater across one Week') +
