@@ -8,4 +8,9 @@ ww_data <- readr::read_csv('rawdata/ww-data-long-2023-05-02.csv') %>%
 
 ww_cities <- sort(unique(ww_data$City))
 
-usethis::use_data(ww_data, ww_cities, overwrite = TRUE)
+# determine display colors and associate them with years
+years <- as.character(sort(unique(ww_data$Year)))
+ww_col <- viridisLite::viridis(n=length(years), direction = -1)
+names(ww_col) <- years
+
+usethis::use_data(ww_data, ww_cities, ww_col, overwrite = TRUE)

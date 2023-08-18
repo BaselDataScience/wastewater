@@ -1,6 +1,6 @@
 #' Wastewater drug metabolite data
 #'
-#' The data source from the EMCDDA and SCORE projects
+#' Data of the back-transformed drug measurements from the EMCDDA and SCORE projects.
 #'
 #' @format ## `ww_data`
 #' A data frame with 21560 rows and 7 columns:
